@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edebiyat Dergisi - Özel İçerik</title>
+    <style>
+        /* Metin seçmeyi tamamen engelle */
+        * {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #f4f1ea;
+            color: #2b2b2b;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            transition: filter 0.3s ease;
+        }
+
+        /* Ekran görüntüsü alma aracı açılınca veya sekme değişince metni bulanıklaştır */
+        body.blur-content {
+            filter: blur(15px);
+        }
+
+        .container {
+            max-width: 700px;
+            background: #ffffff;
+            padding: 40px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Arka plana şeffaf koruma/telif filigranı (Watermark) */
+        .container::before {
+            content: "Sadece Okuma Amaçlıdır - Telif Hakkı Saklıdır";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-30deg);
+            font-size: 24px;
+            color: rgba(0, 0, 0, 0.04);
+            white-space: nowrap;
+            pointer-events: none;
+            font-weight: bold;
+        }
+
+        h1 {
+            font-size: 28px;
+            border-bottom: 2px solid #8b0000;
+            padding-bottom: 10px;
+            color: #8b0000;
+        }
+
+        .meta-info {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+
+        p {
+            line-height: 1.8;
+            font-size: 18px;
+            text-align: justify;
+            margin-bottom: 20px;
+        }
+
+        /* Yazdırma (Print) işleminde metni tamamen gizle */
+        @media print {
+            body {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body oncontextmenu="return false;">
+
+    <div class="container">
+        <h1>Metnin Başlığı Buraya</h1>
+        <div class="meta-info">Yazar: Yazar Adı | Edebiyat Dergisi Özel Yayını</div>
+        
+        <!-- Metin paragraf paragraf buraya eklenecek -->
+        <p>
+            Buraya dergide yer alacak uzun metnin ilk paragrafını ekleyebilirsin.
+        </p>
+        <p>
+            İkinci paragraf ve devamı da bu şekilde eklenebilir.
+        </p>
+    </div>
+
+    <script>
+        // 1. Kısayolları Engelle (Ctrl+C, Ctrl+P, Ctrl+S, F12 vb.)
+        document.addEventListener('keydown', function(e) {
+            if (
+                e.ctrlKey && (e.key === 'c' || e.key === 'p' || e.key === 's' || e.key === 'u') ||
+                e.key === 'F12' || 
+                (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C'))
+            ) {
+                e.preventDefault();
+                alert("Bu metnin indirilmesi, kopyalanması veya yazdırılması telif hakları gereği kısıtlanmıştır.");
+            }
+        });
+
+        // 2. Ekran Görüntüsü Araçları / Sekme Değişiminde Metni Bulanıklaştır (Blur)
+        window.addEventListener('blur', function() {
+            document.body.classList.add('blur-content');
+        });
+
+        window.addEventListener('focus', function() {
+            document.body.classList.remove('blur-content');
+        });
+    </footer>
+</body>
+</html>
