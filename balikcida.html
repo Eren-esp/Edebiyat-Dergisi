@@ -44,9 +44,9 @@
             max-width: 800px;
             display: flex;
             flex-direction: column;
-            gap: 0; /* Sayfalar arasında boşluk kalmaması için */
+            gap: 0;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transition: filter 0.2s ease, opacity 0.2s ease;
+            transition: filter 0.15s ease, opacity 0.15s ease;
         }
 
         /* Görsellerin Yapısı */
@@ -54,14 +54,14 @@
             width: 100%;
             height: auto;
             display: block;
-            pointer-events: none; /* Resim üzerine tıklanmasını/sürüklenmesini engeller */
+            pointer-events: none;
             -webkit-user-drag: none;
         }
 
-        /* Ekran Alıntısı Aracı / Odak Kaybında Bulanıklaştırma Efekti */
+        /* Ekran Alıntısı / Odak Kaybında Bulanıklaştırma Efekti */
         .blur-mode {
-            filter: blur(25px) grayscale(100%);
-            opacity: 0.1;
+            filter: blur(30px) grayscale(100%);
+            opacity: 0.05;
         }
 
         /* Telif Alt Bilgisi */
@@ -105,24 +105,47 @@
             e.preventDefault();
         });
 
-        // 2. Klavye Kısayollarını Ve F12'yi Engelleme
+        // 2. Klavye Kısayollarını, F12 ve Ekran Görüntüsü Tuşlarını Engelleme/Bulanıklaştırma
         document.addEventListener('keydown', function(e) {
-            // F12
+            // F12 Engeli
             if (e.key === 'F12' || e.keyCode === 123) {
                 e.preventDefault();
                 return false;
             }
-            // Ctrl+C, Ctrl+P, Ctrl+U, Ctrl+S, Ctrl+Shift+I, Ctrl+Shift+C
+
+            // PrintScreen veya Windows + Shift + S kısayolu yakalama
+            if (e.key === 'PrintScreen' || (e.key === 'S' && e.shiftKey && (e.metaKey || e.windowsKey))) {
+                icerik.classList.add('blur-mode');
+                setTimeout(() => {
+                    icerik.classList.remove('blur-mode');
+                }, 3000); // 3 saniye sonra ekran netleşir
+            }
+
+            // Ctrl+C, Ctrl+P, Ctrl+U, Ctrl+S, Ctrl+Shift+I, Ctrl+Shift+C Kombinasyonları
             if (e.ctrlKey || e.metaKey) {
                 if (['c', 'p', 'u', 's', 'C', 'P', 'U', 'S'].includes(e.key) || 
-                   (e.shiftKey && ['I', 'i', 'C', 'c', 'J', 'j'].includes(e.key))) {
+                   (e.shiftKey && ['I', 'i', 'C', 'c', 'J', 'j', 'S', 's'].includes(e.key))) {
                     e.preventDefault();
+                    icerik.classList.add('blur-mode');
+                    setTimeout(() => {
+                        icerik.classList.remove('blur-mode');
+                    }, 2000);
                     return false;
                 }
             }
         });
 
-        // 3. Ekran Görüntüsü / Odak Kaybında Bulanıklaştırma (Blur)
+        // PrintScreen Tuşu Bırakıldığında Kopyalama Panosunu Temizleme Girişimi
+        document.addEventListener('keyup', function(e) {
+            if (e.key === 'PrintScreen') {
+                icerik.classList.add('blur-mode');
+                setTimeout(() => {
+                    icerik.classList.remove('blur-mode');
+                }, 3000);
+            }
+        });
+
+        // 3. Odak Kaybında (Pencere Değişimi veya Ekran Alıntısı Aracı Açıldığında) Bulanıklaştırma
         window.addEventListener('blur', function() {
             icerik.classList.add('blur-mode');
         });
