@@ -3,74 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Balıkçıda - Edebiyat Dergisi</title>
+    <title>Balıkçıda - Dergi Okuyucu</title>
     <style>
+        /* Temel Sayfa Düzeni */
         body {
-            background-color: #f4f1ea;
             margin: 0;
-            padding: 20px;
+            padding: 20px 0;
+            background-color: #121212;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            min-height: 100vh;
-            transition: filter 0.3s ease;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
         }
 
-        body.blur-content {
-            filter: blur(15px);
-        }
-
-        .image-container {
-            max-width: 800px;
-            width: 100%;
-            background: #ffffff;
-            padding: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            border-radius: 8px;
+        /* Başlık ve Uyarı Alanı */
+        .header {
             text-align: center;
+            margin-bottom: 20px;
+            padding: 0 15px;
+        }
+        .header h1 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+            color: #e0e0e0;
+        }
+        .header p {
+            font-size: 0.85rem;
+            color: #888888;
+            margin: 0;
         }
 
-        img {
-            max-width: 100%;
+        /* Görsel Kapsayıcısı */
+        .dergi-kapsayici {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 0; /* Sayfalar arasında boşluk kalmaması için */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: filter 0.2s ease, opacity 0.2s ease;
+        }
+
+        /* Görsellerin Yapısı */
+        .dergi-sayfa {
+            width: 100%;
             height: auto;
-            border-radius: 4px;
-            /* Resmin sürüklenmesini ve mouse ile etkileşimini engeller */
-            pointer-events: none; 
+            display: block;
+            pointer-events: none; /* Resim üzerine tıklanmasını/sürüklenmesini engeller */
             -webkit-user-drag: none;
         }
 
-        @media print {
-            body { display: none !important; }
+        /* Ekran Alıntısı Aracı / Odak Kaybında Bulanıklaştırma Efekti */
+        .blur-mode {
+            filter: blur(25px) grayscale(100%);
+            opacity: 0.1;
+        }
+
+        /* Telif Alt Bilgisi */
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #666666;
+            padding: 10px;
         }
     </style>
 </head>
-<body oncontextmenu="return false;">
+<body>
 
-    <div class="image-container">
-        <!-- Buraya yüklediğin resmin tam adını yazmalısın -->
-        <img src="balikcida.png" alt="Balıkçıda Metni">
+    <div class="header">
+        <h1>Balıkçıda</h1>
+        <p>Telif hakları saklıdır. Kopyalanamaz ve çoğaltılamaz.</p>
+    </div>
+
+    <!-- 8 Sayfalık Görsel Alanı -->
+    <div class="dergi-kapsayici" id="icerik">
+        <img src="balikcida_sayfa1_imzali.png" alt="Balıkçıda Sayfa 1" class="dergi-sayfa">
+        <img src="balikcida_sayfa2_imzali.png" alt="Balıkçıda Sayfa 2" class="dergi-sayfa">
+        <img src="balikcida_sayfa3_imzali.png" alt="Balıkçıda Sayfa 3" class="dergi-sayfa">
+        <img src="balikcida_sayfa4_imzali.png" alt="Balıkçıda Sayfa 4" class="dergi-sayfa">
+        <img src="balikcida_sayfa5_imzali.png" alt="Balıkçıda Sayfa 5" class="dergi-sayfa">
+        <img src="balikcida_sayfa6_imzali.png" alt="Balıkçıda Sayfa 6" class="dergi-sayfa">
+        <img src="balikcida_sayfa7_imzali.png" alt="Balıkçıda Sayfa 7" class="dergi-sayfa">
+        <img src="balikcida_sayfa8_imzali.png" alt="Balıkçıda Sayfa 8" class="dergi-sayfa">
+    </div>
+
+    <div class="footer">
+        © Dijital Edebiyat Dergisi - Tüm Hakları Saklıdır.
     </div>
 
     <script>
-        // Kısayolları ve Geliştirici Araçlarını Engelle
+        const icerik = document.getElementById('icerik');
+
+        // 1. Sağ Tık Menüsünü Engelleme
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // 2. Klavye Kısayollarını Ve F12'yi Engelleme
         document.addEventListener('keydown', function(e) {
-            if (
-                e.ctrlKey && (e.key === 'c' || e.key === 'p' || e.key === 's' || e.key === 'u') ||
-                e.key === 'F12' || 
-                (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C'))
-            ) {
+            // F12
+            if (e.key === 'F12' || e.keyCode === 123) {
                 e.preventDefault();
-                alert("Bu içeriğin indirilmesi veya kopyalanması telif hakları gereği kısıtlanmıştır.");
+                return false;
+            }
+            // Ctrl+C, Ctrl+P, Ctrl+U, Ctrl+S, Ctrl+Shift+I, Ctrl+Shift+C
+            if (e.ctrlKey || e.metaKey) {
+                if (['c', 'p', 'u', 's', 'C', 'P', 'U', 'S'].includes(e.key) || 
+                   (e.shiftKey && ['I', 'i', 'C', 'c', 'J', 'j'].includes(e.key))) {
+                    e.preventDefault();
+                    return false;
+                }
             }
         });
 
-        // Ekran Alıntısı Aracı veya Sekme Değişiminde Bulanıklaştır
+        // 3. Ekran Görüntüsü / Odak Kaybında Bulanıklaştırma (Blur)
         window.addEventListener('blur', function() {
-            document.body.classList.add('blur-content');
+            icerik.classList.add('blur-mode');
         });
 
         window.addEventListener('focus', function() {
-            document.body.classList.remove('blur-content');
+            icerik.classList.remove('blur-mode');
+        });
+
+        // 4. Görsellerin Sürüklenmesini Engelleme
+        document.querySelectorAll('.dergi-sayfa').forEach(img => {
+            img.addEventListener('dragstart', (e) => e.preventDefault());
         });
     </script>
 </body>
