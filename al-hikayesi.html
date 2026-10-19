@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AL Hikayesi - Dergi Okuyucu</title>
+    <style>
+        /* Temel Sayfa Düzeni */
+        body {
+            margin: 0;
+            padding: 20px 0;
+            background-color: #121212;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        /* Başlık ve Uyarı Alanı */
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 0 15px;
+        }
+        .header h1 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+            color: #e0e0e0;
+        }
+        .header p {
+            font-size: 0.85rem;
+            color: #888888;
+            margin: 0;
+        }
+
+        /* Görsel Kapsayıcısı */
+        .dergi-kapsayici {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: filter 0.15s ease, opacity 0.15s ease;
+        }
+
+        /* Görsellerin Yapısı */
+        .dergi-sayfa {
+            width: 100%;
+            height: auto;
+            display: block;
+            pointer-events: none;
+            -webkit-user-drag: none;
+        }
+
+        /* Ekran Alıntısı / Odak Kaybında Bulanıklaştırma Efekti */
+        .blur-mode {
+            filter: blur(30px) grayscale(100%);
+            opacity: 0.05;
+        }
+
+        /* Telif Alt Bilgisi */
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #666666;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>AL Hikayesi</h1>
+        <p>Telif hakları saklıdır. Kopyalanamaz ve çoğaltılamaz.</p>
+    </div>
+
+    <!-- 36 Sayfalık Görsel Alanı (Otomatik Döngü Yerine Sıralı Liste) -->
+    <div class="dergi-kapsayici" id="icerik">
+        <!-- 1'den 36'ya kadar olan imzalı görsellerin HTML bağlantıları -->
+        <script>
+            // 36 sayfayı otomatik ve hatasız yazdırmak için küçük bir JS döngüsü
+            const kapsayici = document.getElementById('icerik');
+            for (let i = 1; i <= 36; i++) {
+                const img = document.createElement('img');
+                img.src = `al_hikayesi_sayfa${i}_imzali.png`;
+                img.alt = `AL Hikayesi Sayfa ${i}`;
+                img.className = 'dergi-sayfa';
+                kapsayici.appendChild(img);
+            }
+        </script>
+    </div>
+
+    <div class="footer">
+        © Dijital Edebiyat Dergisi - Tüm Hakları Saklıdır.
+    </div>
+
+    <script>
+        const icerik = document.getElementById('icerik');
+
+        // 1. Sağ Tık Menüsünü Engelleme
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // 2. Klavye Kısayollarını, F12 ve Ekran Görüntüsü Tuşlarını Engelleme/Bulanıklaştırma
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F12' || e.keyCode === 123) {
+                e.preventDefault();
+                return false;
+            }
+
+            if (e.key === 'PrintScreen' || (e.key === 'S' && e.shiftKey && (e.metaKey || e.windowsKey))) {
+                icerik.classList.add('blur-mode');
+                setTimeout(() => {
+                    icerik.classList.remove('blur-mode');
+                }, 3000);
+            }
+
+            if (e.ctrlKey || e.metaKey) {
+                if (['c', 'p', 'u', 's', 'C', 'P', 'U', 'S'].includes(e.key) || 
+                   (e.shiftKey && ['I', 'i', 'C', 'c', 'J', 'j', 'S', 's'].includes(e.key))) {
+                    e.preventDefault();
+                    icerik.classList.add('blur-mode');
+                    setTimeout(() => {
+                        icerik.classList.remove('blur-mode');
+                    }, 2000);
+                    return false;
+                }
+            }
+        });
+
+        document.addEventListener('keyup', function(e) {
+            if (e.key === 'PrintScreen') {
+                icerik.classList.add('blur-mode');
+                setTimeout(() => {
+                    icerik.classList.remove('blur-mode');
+                }, 3000);
+            }
+        });
+
+        window.addEventListener('blur', function() {
+            icerik.classList.add('blur-mode');
+        });
+
+        window.addEventListener('focus', function() {
+            icerik.classList.remove('blur-mode');
+        });
+
+        document.querySelectorAll('.dergi-sayfa').forEach(img => {
+            img.addEventListener('dragstart', (e) => e.preventDefault());
+        });
+    </script>
+</body>
+</html>
