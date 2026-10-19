@@ -3,96 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edebiyat Dergisi - Özel Dijital İçerikler</title>
+    <title>Göğe Bakma Durağı - Dijital Edebiyat Dergisi</title>
     <style>
+        /* Temel Sayfa Düzeni */
+        * {
+            box-sizing: border-box;
+        }
         body {
-            font-family: 'Georgia', serif;
-            background-color: #f4f1ea;
-            color: #2b2b2b;
             margin: 0;
             padding: 40px 20px;
+            background-color: #121212;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
             min-height: 100vh;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
         }
 
+        /* Kart Kapsayıcısı */
         .container {
-            max-width: 650px;
-            background: #ffffff;
-            padding: 40px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-            border-radius: 8px;
+            width: 100%;
+            max-width: 600px;
+            background-color: #1e1e1e;
+            padding: 30px 25px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            border: 1px solid #2a2a2a;
             text-align: center;
+            transition: filter 0.15s ease, opacity 0.15s ease;
         }
 
+        /* Başlıklar ve Açıklama */
         h1 {
-            font-size: 26px;
-            color: #8b0000;
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            color: #f5f5f5;
+            letter-spacing: 0.5px;
+        }
+        .subtitle {
+            font-size: 0.95rem;
+            color: #4caf50;
+            font-weight: 600;
             margin-bottom: 15px;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
-
-        p {
-            font-size: 16px;
-            color: #555;
-            margin-bottom: 25px;
-            line-height: 1.7;
-            text-align: justify;
-        }
-
-        .notice-box {
-            background-color: #fff8e7;
-            border-left: 4px solid #8b0000;
-            padding: 15px;
-            font-size: 14px;
-            color: #444;
+        .description {
+            font-size: 0.85rem;
+            color: #aaaaaa;
             margin-bottom: 30px;
-            text-align: left;
-            border-radius: 4px;
+            line-height: 1.5;
         }
 
-        .links-list {
+        /* Eser Liste Butonları */
+        .liste {
             display: flex;
             flex-direction: column;
             gap: 15px;
         }
 
-        .btn {
-            background-color: #8b0000;
-            color: white;
-            padding: 14px 20px;
+        .eser-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            background-color: #262626;
+            color: #ffffff;
             text-decoration: none;
-            border-radius: 5px;
-            font-size: 16px;
-            font-weight: bold;
-            transition: background 0.3s ease;
+            border-radius: 10px;
+            border: 1px solid #333333;
+            transition: all 0.2s ease;
         }
 
-        .btn:hover {
-            background-color: #5c0000;
+        .eser-card:hover {
+            background-color: #323232;
+            border-color: #4caf50;
+            transform: translateY(-2px);
+        }
+
+        .eser-bilgi {
+            text-align: left;
+        }
+
+        .eser-baslik {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #ffffff;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .eser-detay {
+            font-size: 0.75rem;
+            color: #888888;
+        }
+
+        .oku-ok {
+            font-size: 1.2rem;
+            color: #4caf50;
+            font-weight: bold;
+        }
+
+        /* Telif Uyarısı ve Alt Bilgi */
+        .telif-uyari {
+            margin-top: 25px;
+            font-size: 0.75rem;
+            color: #777777;
+            background-color: rgba(255, 255, 255, 0.03);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px dashed #333;
+        }
+
+        .footer {
+            margin-top: 25px;
+            font-size: 0.7rem;
+            color: #555555;
+        }
+
+        /* Ekran Alıntısı / Odak Kaybında Bulanıklaştırma Efekti */
+        .blur-mode {
+            filter: blur(25px) grayscale(100%);
+            opacity: 0.05;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Edebiyat Dergisi - Dijital Okuma Salonu</h1>
-        
-        <p>
-            Değerli okurlarımız, dergimizin bu sayısında yer alan bazı özel metinler, yazarlarımızın telif hakları ve ileride farklı platformlarda/basılı mecralarda yayınlanma süreçleri sebebiyle <strong>sınırlı bir süre için</strong> ve <strong>sadece çevrim içi görüntüleme amaçlı</strong> erişime sunulmuştur.
+    <div class="container" id="icerik">
+        <div class="subtitle">Antalya Lisesi Edebiyat Dergisi</div>
+        <h1>Göğe Bakma Durağı - Sayı: 1</h1>
+        <p class="description">
+            Aşağıdaki menüden okumak istediğiniz esere tıklayarak dijital içeriğe erişebilirsiniz.
         </p>
 
-        <div class="notice-box">
-            <strong>⚠️ Bilgilendirme:</strong> Metinlerin kopyalanması, indirilmesi veya ekran görüntüsü alınması telif koruma sistemleri uyarınca kısıtlanmıştır. Anlayışınız ve edebiyata gösterdiğiniz saygı için teşekkür ederiz.
+        <!-- Eser Liste Bağlantıları -->
+        <div class="liste">
+            <a href="balikcida.html" class="eser-card">
+                <div class="eser-bilgi">
+                    <span class="eser-baslik">Balıkçıda</span>
+                    <span class="eser-detay">Öykü • 8 Sayfa</span>
+                </div>
+                <span class="oku-ok">Oku →</span>
+            </a>
+
+            <a href="bu-hikayenin-sonu.html" class="eser-card">
+                <div class="eser-bilgi">
+                    <span class="eser-baslik">Bu Hikayenin Sonu</span>
+                    <span class="eser-detay">Hikaye • 2 Sayfa</span>
+                </div>
+                <span class="oku-ok">Oku →</span>
+            </a>
+
+            <a href="al-hikayesi.html" class="eser-card">
+                <div class="eser-bilgi">
+                    <span class="eser-baslik">AL Hikayesi</span>
+                    <span class="eser-detay">Uzun Metin • 36 Sayfa</span>
+                </div>
+                <span class="oku-ok">Oku →</span>
+            </a>
         </div>
-        
-        <div class="links-list">
-            <a href="balikcida.html" class="btn">📖 1. Metin: Balıkçıda</a>
-            <a href="bu-hikayenin-sonu.html" class="btn">📖 2. Metin: Bu Hikayenin Sonu</a>
+
+        <div class="telif-uyari">
+            🔒 Bu platformda yayınlanan tüm metinler dijital olarak imzalanmış olup telif hakları saklıdır. İzinsiz kopyalanamaz, paylaşılamaz ve çoğaltılamaz.
         </div>
     </div>
 
+    <div class="footer">
+        © 2026 Antalya Lisesi Göğe Bakma Durağı Edebiyat Dergisi
+    </div>
+
+    <script>
+        const icerik = document.getElementById('icerik');
+
+        // 1. Sağ Tık Engeli
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // 2. Klavye ve Ekran Görüntüsü Engelleri
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F12' || e.keyCode === 123) {
+                e.preventDefault();
+                return false;
+            }
+
+            if (e.key === 'PrintScreen' || (e.key === 'S' && e.shiftKey && (e.metaKey || e.windowsKey))) {
+                icerik.classList.add('blur-mode');
+                setTimeout(() => {
+                    icerik.classList.remove('blur-mode');
+                }, 3000);
+            }
+
+            if (e.ctrlKey || e.metaKey) {
+                if (['c', 'p', 'u', 's', 'C', 'P', 'U', 'S'].includes(e.key) || 
+                   (e.shiftKey && ['I', 'i', 'C', 'c', 'J', 'j', 'S', 's'].includes(e.key))) {
+                    e.preventDefault();
+                    icerik.classList.add('blur-mode');
+                    setTimeout(() => {
+                        icerik.classList.remove('blur-mode');
+                    }, 2000);
+                    return false;
+                }
+            }
+        });
+
+        // 3. Odak Kaybında Bulanıklaştırma
+        window.addEventListener('blur', function() {
+            icerik.classList.add('blur-mode');
+        });
+
+        window.addEventListener('focus', function() {
+            icerik.classList.remove('blur-mode');
+        });
+    </script>
 </body>
 </html>
